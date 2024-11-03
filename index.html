@@ -15,8 +15,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID">
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+    <script src="script.js"></script>
+
     <header>
         <nav>
             <div class="logo">
@@ -52,18 +58,33 @@
                         צור קשר
                     </a>
                 </li>
-                <li>
-                    <a href="admin.html">
-                        <i class="fas fa-user-cog"></i>
-                        ניהול
+                <li class="login-item">
+                    <a href="#" class="login-button" onclick="handleGoogleLogin()">
+                        <i class="fab fa-google"></i>
+                        התחבר
                     </a>
+                    <!-- אלמנט שיוצג אחרי ההתחברות -->
+                    <div class="user-menu" style="display: none;">
+                        <img src="" alt="" class="user-avatar">
+                        <span class="user-name"></span>
+                        <a href="#" onclick="handleLogout()" class="logout-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            התנתק
+                        </a>
+                    </div>
                 </li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1 class="welcome-title">ברוכים הבאים לאיתמר ספרים</h1>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="welcome-title">ברוכים הבאים לאיתמר ספרים</h1>
+                <p class="hero-subtitle">הספרייה הדיגיטלית שלכם במחירים משתלמים</p>
+                <a href="books.html" class="cta-button">לכל הספרים</a>
+            </div>
+        </section>
         
         <section class="featured-books">
             <h2>ספרים מומלצים</h2>
@@ -76,6 +97,11 @@
     <footer>
         <p>&copy; 2024 איתמר ספרים. כל הזכויות שמורות.</p>
     </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/9720585058586" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script>
         // טעינת ספרים מהאחסון המקומי
@@ -186,6 +212,66 @@
         function generateRandomPrice() {
             return Math.floor(Math.random() * (150 - 50) + 50);
         }
+
+        // פונקציות התחברות והתנתקות
+        function handleGoogleLogin() {
+            // הוסף כאן את קוד ההתחברות של Google
+            gapi.auth2.getAuthInstance().signIn().then(
+                (user) => {
+                    updateUIAfterLogin(user);
+                },
+                (error) => {
+                    console.error('שגיאת התחברות:', error);
+                }
+            );
+        }
+
+        function handleLogout() {
+            // הוסף כאן את קוד ההתנתקות
+            gapi.auth2.getAuthInstance().signOut().then(() => {
+                updateUIAfterLogout();
+            });
+        }
+
+        function updateUIAfterLogin(user) {
+            const loginButton = document.querySelector('.login-button');
+            const userMenu = document.querySelector('.user-menu');
+            const userAvatar = document.querySelector('.user-avatar');
+            const userName = document.querySelector('.user-name');
+            
+            if (loginButton && userMenu && userAvatar && userName) {
+                loginButton.style.display = 'none';
+                userMenu.style.display = 'flex';
+                
+                const profile = user.getBasicProfile();
+                userAvatar.src = profile.getImageUrl();
+                userName.textContent = profile.getName();
+            }
+        }
+
+        function updateUIAfterLogout() {
+            const loginButton = document.querySelector('.login-button');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (loginButton && userMenu) {
+                loginButton.style.display = 'flex';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // בדיקת מצב התחברות בטעינת הדף
+        document.addEventListener('DOMContentLoaded', () => {
+            gapi.load('auth2', () => {
+                gapi.auth2.init({
+                    client_id: 'YOUR_GOOGLE_CLIENT_ID'
+                }).then(() => {
+                    const auth2 = gapi.auth2.getAuthInstance();
+                    if (auth2.isSignedIn.get()) {
+                        updateUIAfterLogin(auth2.currentUser.get());
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חיפוש - איתמר ספרים</title>
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#1a237e">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <i class="fas fa-book"></i>
+                    איתמר ספרים
+                </a>
+            </div>
+            <div class="menu-toggle">☰</div>
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        דף הבית
+                    </a>
+                </li>
+                <li>
+                    <a href="books.html">
+                        <i class="fas fa-book-open"></i>
+                        ספרים
+                    </a>
+                </li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        סל קניות
+                        <span class="cart-count">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="contact.html">
+                        <i class="fas fa-envelope"></i>
+                        צור קשר
+                    </a>
+                </li>
+                <li>
+                    <a href="admin.html">
+                        <i class="fas fa-user-cog"></i>
+                        ניהול
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="search-page">
+            <div class="search-header">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="חפש ספר או מחבר...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                        חיפוש
+                    </button>
+                </div>
+            </div>
+
+            <!-- תוצאות החיפוש -->
+            <div id="booksList" class="books-grid">
+                <!-- כאן יוצגו הספרים -->
+            </div>
+
+            <!-- מצבי טעינה ושגיאה -->
+            <div id="loading" class="loading-spinner" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+                טוען...
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 איתמר ספרים - כל הזכויות שמורות</p>
+        </div>
+    </footer>
+
+    <script src="src/js/main.js" type="module"></script>
+</body>
+</html>

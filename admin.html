@@ -73,19 +73,50 @@
             <form id="addBookForm" class="admin-form">
                 <div class="form-group">
                     <label for="bookTitle">שם הספר:</label>
-                    <input type="text" id="bookTitle" required>
+                    <input type="text" id="bookTitle" required placeholder="הכנס את שם הספר">
                 </div>
                 <div class="form-group">
                     <label for="bookAuthor">מחבר:</label>
-                    <input type="text" id="bookAuthor" required>
+                    <input type="text" id="bookAuthor" required placeholder="שם המחבר">
+                </div>
+                <div class="form-group">
+                    <label for="bookDescription">תיאור הספר:</label>
+                    <textarea id="bookDescription" rows="4" required placeholder="הכנס תיאור קצר של הספר"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="bookCategory">קטגוריה:</label>
+                    <select id="bookCategory" required>
+                        <option value="">בחר קטגוריה</option>
+                        <option value="ילדים">ספרי ילדים</option>
+                        <option value="מתח">מתח והרפתקאות</option>
+                        <option value="רומן">רומן</option>
+                        <option value="עיון">ספרי עיון</option>
+                        <option value="היסטוריה">היסטוריה</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="bookPrice">מחיר:</label>
-                    <input type="number" id="bookPrice" required>
+                    <input type="number" id="bookPrice" required min="0" step="0.01" placeholder="הכנס מחיר">
+                </div>
+                <div class="form-group">
+                    <label for="bookPages">מספר עמודים:</label>
+                    <input type="number" id="bookPages" required min="1" placeholder="מספר עמודים">
+                </div>
+                <div class="form-group">
+                    <label for="bookPublisher">הוצאה לאור:</label>
+                    <input type="text" id="bookPublisher" placeholder="שם ההוצאה לאור">
+                </div>
+                <div class="form-group">
+                    <label for="bookYear">שנת הוצאה:</label>
+                    <input type="number" id="bookYear" placeholder="שנת הוצאה" min="1900" max="2024">
                 </div>
                 <div class="form-group">
                     <label for="bookImage">קישור לתמונה:</label>
-                    <input type="url" id="bookImage" required>
+                    <input type="url" id="bookImage" required placeholder="הכנס קישור לתמונת הספר">
+                </div>
+                <div class="form-group">
+                    <label for="bookStock">כמות במלאי:</label>
+                    <input type="number" id="bookStock" required min="0" placeholder="כמות זמינה במלאי">
                 </div>
                 <button type="submit">הוסף ספר</button>
             </form>
@@ -116,8 +147,14 @@
                 id: Date.now(),
                 title: document.getElementById('bookTitle').value,
                 author: document.getElementById('bookAuthor').value,
+                description: document.getElementById('bookDescription').value,
+                category: document.getElementById('bookCategory').value,
                 price: Number(document.getElementById('bookPrice').value),
-                image: document.getElementById('bookImage').value
+                pages: Number(document.getElementById('bookPages').value),
+                publisher: document.getElementById('bookPublisher').value,
+                year: Number(document.getElementById('bookYear').value),
+                image: document.getElementById('bookImage').value,
+                stock: Number(document.getElementById('bookStock').value)
             };
 
             // שמירה ב-localStorage

@@ -15,52 +15,85 @@ body {
 
 /* עיצוב Header */
 header {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background-color: #1a237e;
+    padding: 10px 0;
+}
+
+.user-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 0 20px 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.user-actions a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.user-actions i {
+    font-size: 16px;
+}
+
+.cart-link {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    min-width: 18px;
+    text-align: center;
 }
 
 nav {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 0 20px;
+}
+
+.nav-links {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 30px;
+    justify-content: flex-start;
 }
 
-.logo a {
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-nav ul {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    list-style: none;
-}
-
-nav ul li a {
+.nav-links a {
     color: white;
     text-decoration: none;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    font-size: 16px;
+    padding: 5px 0;
 }
 
-nav ul li a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+.nav-links a:hover {
+    color: #e0e0e0;
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
+    .user-actions {
+        padding: 0 15px 5px;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
 }
 
 /* עיצוב Main Content */
@@ -91,243 +124,150 @@ main {
 /* עיצוב כרטיסי ספרים */
 .books-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 .book-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     position: relative;
-}
-
-.book-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    padding-bottom: 50px;
 }
 
 .book-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 10px;
 }
 
-.book-info {
-    padding: 1.5rem;
-}
-
-.book-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-    color: #1a237e;
-}
-
-.book-card .author {
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
-
-.book-card .price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #0d47a1;
-    margin-bottom: 1rem;
+.book-card .buttons-container {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    padding: 0 10px;
 }
 
 .add-to-cart-btn {
     width: 100%;
-    padding: 1rem;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.book-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.book-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    height: 38px;
+}
+
+.book-author {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.book-description {
+    font-size: 14px;
+    color: #777;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    flex: 1;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 8px;
     background: #1a237e;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 14px;
+    transition: background 0.3s;
+    margin-top: auto;
 }
 
 .add-to-cart-btn:hover {
-    background: #0d47a1;
-    transform: translateY(-2px);
+    background: #283593;
 }
 
-/* עיצוב Cart Badge */
-.cart-link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.cart-count {
-    background: #ff4081;
-    color: white;
-    padding: 0.2rem 0.6rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-/* עיצוב Footer */
-footer {
-    background: rgba(0, 0, 0, 0.2);
-    color: white;
-    text-align: center;
-    padding: 2rem;
-    margin-top: 4rem;
-    backdrop-filter: blur(10px);
-}
-
-/* מודל פרטי ספר */
-.book-modal {
-    position: fixed;
+/* מניעת ריצוד בזמן טעינת תמונות */
+.book-image::before {
+    content: "";
+    display: block;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    background: #f5f5f5;
 }
 
-.modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 16px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
+.book-cover[src] {
+    opacity: 1;
+    transition: opacity 0.3s;
 }
 
-.close-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.book-details {
-    margin: 1rem 0;
-    font-size: 0.9rem;
+/* עיצוב להודעות */
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
     color: #666;
 }
 
-.details-btn {
-    background: #1a237e;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    width: 100%;
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 16px;
 }
 
-.details-btn:hover {
-    background: #0d47a1;
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #d32f2f;
+    font-size: 16px;
 }
 
-.description {
-    margin: 1rem 0;
-    line-height: 1.6;
-}
-
-.book-metadata {
-    background: #f5f5f5;
-    padding: 1rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-}
-
-/* הגדרות בסיס רספונסיביות */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* Meta viewport כבר קיים ב-HTML */
-
-/* עיצוב תפריט למובייל */
-@media screen and (max-width: 768px) {
-    nav {
-        padding: 0.5rem;
-    }
-
-    nav ul {
-        position: fixed;
-        top: 60px;
-        right: -100%;
-        background: rgba(26, 35, 126, 0.95);
-        backdrop-filter: blur(10px);
-        width: 100%;
-        height: calc(100vh - 60px);
-        flex-direction: column;
-        padding: 2rem;
-        transition: 0.3s;
-        z-index: 1000;
-    }
-
-    nav ul.active {
-        right: 0;
-    }
-
-    .menu-toggle {
-        display: block;
-        font-size: 1.5rem;
-        color: white;
-        cursor: pointer;
-    }
-
-    /* עיצוב כרטיסי ספרים */
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
     .books-grid {
-        grid-template-columns: 1fr;
-        padding: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+        padding: 15px;
     }
 
     .book-card {
-        margin: 0.5rem 0;
+        height: 350px;
     }
 
-    /* עיצוב סל קניות */
-    .cart-container {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-
-    .cart-item {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .item-quantity {
-        justify-content: center;
-        margin: 1rem 0;
-    }
-
-    /* כותרות */
-    .welcome-title {
-        font-size: 2rem;
-        padding: 1rem;
-    }
-}
-
-/* עיצוב לטאבלט */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .books-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .book-image {
+        height: 200px;
     }
 }
 
@@ -613,13 +553,18 @@ footer {
 
 .form-group {
     margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #1a237e;
-    font-weight: 500;
+    position: absolute;
+    top: -0.5rem;
+    right: 0.8rem;
+    background: white;
+    padding: 0 0.5rem;
+    font-size: 0.9rem;
+    color: #000000;
+    transform: none;
 }
 
 .form-group input,
@@ -630,7 +575,7 @@ footer {
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    direction: rtl;
 }
 
 .form-group input:focus,
@@ -812,5 +757,875 @@ nav ul li a i {
 
     nav ul.active {
         display: flex;
+    }
+}
+
+/* Header & Navigation */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.main-header.scrolled {
+    background: rgba(26, 35, 126, 0.95);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-links a.active {
+    background: var(--accent-color);
+}
+
+.logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+/* עדכון למרווח בתוכן הראשי די שלא יוסתר על ידי ה-header הקבוע */
+main {
+    padding-top: 80px;
+}
+
+.form-group input,
+.form-group textarea {
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #1a237e;
+    box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+    background: #fff;
+}
+
+.form-group label {
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus + label,
+.form-group textarea:focus + label {
+    transform: translateY(0);
+    color: #1a237e;
+    font-size: 0.9em;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    padding: 4rem 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/books-pattern.png') repeat;
+    opacity: 0.1;
+    animation: slideBackground 20s linear infinite;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-title {
+    color: white;
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    animation: fadeInDown 0.5s ease-out;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    gap: 1rem;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+}
+
+#search-books {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#search-books:focus {
+    outline: none;
+    background: white;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.search-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    background: #ff4081;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #f50057;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+}
+
+.categories-tags {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+.category-tag {
+    padding: 0.5rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-tag:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+@keyframes slideBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* התאמה למובייל */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 3rem 1rem;
+    }
+
+    .welcome-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-btn {
+        width: 100%;
+    }
+
+    .categories-tags {
+        gap: 0.5rem;
+    }
+
+    .category-tag {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+.search-header {
+    background: #1a237e;
+    padding: 8px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-container {
+    display: flex;
+    flex: 1;
+    gap: 5px;
+}
+
+#search-input {
+    flex: 1;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.load-books-btn, .search-btn {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.load-books-btn:hover, .search-btn:hover {
+    background: #e0e0e0;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    gap: 5px;
+}
+
+.suggestions-box {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 2px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #f5f5f5;
+}
+
+.search-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.book-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.2s;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.book-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.book-info {
+    margin-top: 10px;
+}
+
+.book-title {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.book-author {
+    color: #666;
+    margin: 5px 0;
+}
+
+.book-description {
+    font-size: 0.9em;
+    color: #444;
+    margin: 10px 0;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+#no-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.add-to-cart-btn {
+    background: #1a237e;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.add-to-cart-btn:hover {
+    background: #283593;
+}
+
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+.error-message {
+    text-align: center;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    max-width: 400px;
+}
+
+.error-message p {
+    margin: 5px 0;
+    color: #d32f2f;
+}
+
+/* סגנונות כלליים שקיימים כבר בדף הראשי */
+:root {
+    --primary-color: #1a237e;
+    --secondary-color: #283593;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --white: #ffffff;
+}
+
+/* עיצוב דף החיפוש */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: calc(100vh - 160px); /* גובה מינימלי שמשאיר מקום לheader ו-footer */
+}
+
+.search-page {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.search-header {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--background-color);
+    border-radius: 8px;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+}
+
+.search-btn {
+    padding: 12px 25px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.book-card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.book-cover {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background: #f0f0f0;
+    border-radius: 8px 8px 0 0;
+}
+
+.book-info {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.book-title {
+    font-size: 1.2em;
+    margin: 0 0 10px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -ms-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+    height: 2.8em;
+}
+
+.book-author {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    height: 1.2em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.book-description {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.5;
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    -ms-box-orient: vertical;
+    box-orient: vertical;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.add-to-cart-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+.loading-spinner i {
+    margin-left: 10px;
+}
+
+#no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* התאמה למובייל */
+@media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .book-card {
+        max-width: 100%;
+    }
+}
+
+/* הוספה לקובץ הקיים */
+.main-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.search-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1a237e;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+}
+
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.error-message {
+    text-align: center;
+    color: #d32f2f;
+    padding: 1rem;
+}
+
+/* WhatsApp Button */
+.whatsapp-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-button:hover {
+    background-color: #128C7E;
+    transform: scale(1.1);
+}
+
+/* התאמה למובייל */
+@media (max-width: 768px) {
+    .whatsapp-button {
+        width: 50px;
+        height: 50px;
+        font-size: 30px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: transparent;
+}
+
+.admin-title,
+.add-book-title {
+    color: #000000;
+    font-weight: 600;
+}
+
+h1, h2 {
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+.search-results-container {
+    font-family: 'Assistant', sans-serif;  /* אותו פונט כמו שאר האתר */
+}
+
+.search-results-container h1,
+.search-results-container h2 {
+    color: #000000;
+    font-weight: 600;
+    border-bottom: 2px solid #1a237e;  /* סרגל כחול כמו בשאר הכרטיסיות */
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* סגנון לאינדיקטור טעינה */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* סגנון לכרטיסי ספרים */
+.book-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px;
+    text-align: center;
+    max-width: 200px;
+}
+
+.book-card img {
+    max-width: 150px;
+    height: auto;
+}
+
+/* החלף את -ms-filter עם filter סטנדרטי */
+.element {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    filter: blur(5px); /* במקום -ms-filter */
+}
+
+/* הוסף לקובץ CSS */
+.hidden {
+    display: none;
+}
+
+/* Hero Section */
+.hero-section {
+    background-image: linear-gradient(
+        rgba(26, 35, 126, 0.7),
+        rgba(26, 35, 126, 0.7)
+    ),
+    url('images/bookshelf.jpg'); /* תחליף את הנתיב לתמונה שלך */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 60vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+.hero-content {
+    max-width: 800px;
+    color: white;
+}
+
+.welcome-title {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: white !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    color: #1a237e;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 50vh;
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
     }
 }
