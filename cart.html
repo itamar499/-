@@ -13,6 +13,7 @@
             <div class="logo">
                 <a href="index.html">איתמר ספרים</a>
             </div>
+            <div class="menu-toggle">☰</div>
             <ul>
                 <li><a href="index.html">דף הבית</a></li>
                 <li><a href="books.html">ספרים</a></li>
@@ -122,14 +123,7 @@
         }
 
         function checkout() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            if (cart.length === 0) {
-                alert('סל הקניות ריק');
-                return;
-            }
-            
             alert('מעבר לתשלום... (בפיתוח)');
-            // כאן יהיה הקוד לעמוד התשלום
         }
 
         function updateCartCount() {
@@ -137,6 +131,21 @@
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.querySelector('.cart-count').textContent = count;
         }
+
+        // תפריט מובייל
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+
+        // סגירת תפריט בלחיצה על קישור
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navUl.classList.remove('active');
+            });
+        });
 
         // טעינה ראשונית
         document.addEventListener('DOMContentLoaded', () => {

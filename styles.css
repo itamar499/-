@@ -251,95 +251,207 @@ footer {
     margin: 1rem 0;
 }
 
+/* הגדרות בסיס רספונסיביות */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Meta viewport כבר קיים ב-HTML */
+
+/* עיצוב תפריט למובייל */
+@media screen and (max-width: 768px) {
+    nav {
+        padding: 0.5rem;
+    }
+
+    nav ul {
+        position: fixed;
+        top: 60px;
+        right: -100%;
+        background: rgba(26, 35, 126, 0.95);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        height: calc(100vh - 60px);
+        flex-direction: column;
+        padding: 2rem;
+        transition: 0.3s;
+        z-index: 1000;
+    }
+
+    nav ul.active {
+        right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* עיצוב כרטיסי ספרים */
+    .books-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .book-card {
+        margin: 0.5rem 0;
+    }
+
+    /* עיצוב סל קניות */
+    .cart-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .cart-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .item-quantity {
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
+    /* כותרות */
+    .welcome-title {
+        font-size: 2rem;
+        padding: 1rem;
+    }
+}
+
+/* עיצוב לטאבלט */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* עיצוב סל קניות */
 .cart-container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    margin: 2rem auto;
+    padding: 0 2rem;
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 350px;
     gap: 2rem;
 }
 
 .cart-items {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 2rem;
+    background: white;
     border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
 }
 
 .cart-item {
     display: grid;
     grid-template-columns: 1fr auto auto auto;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 1.5rem;
+    padding: 1.5rem;
     border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+    background: #f8f9fa;
 }
 
 .item-details h3 {
-    margin: 0;
-    font-size: 1.1rem;
     color: #1a237e;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
 }
 
 .item-price {
     color: #666;
-    margin: 0.5rem 0;
+    font-size: 1.1rem;
 }
 
 .item-quantity {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
+    background: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 8px;
 }
 
 .item-quantity button {
     background: #1a237e;
     color: white;
     border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.item-quantity button:hover {
+    background: #283593;
+    transform: scale(1.05);
+}
+
+.item-quantity span {
+    font-size: 1.2rem;
+    font-weight: 500;
+    min-width: 30px;
+    text-align: center;
 }
 
 .item-total {
     font-weight: 700;
     color: #1a237e;
+    font-size: 1.2rem;
 }
 
 .remove-item {
     background: #dc3545;
     color: white;
     border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.remove-item:hover {
+    background: #c82333;
+    transform: scale(1.05);
 }
 
 .cart-summary {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 2rem;
+    background: white;
     border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
     position: sticky;
     top: 2rem;
+    height: fit-content;
 }
 
 .cart-summary h3 {
-    margin: 0 0 1rem;
     color: #1a237e;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e3f2fd;
 }
 
 .total-price {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #1a237e;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
 }
 
 .checkout-btn {
@@ -349,41 +461,74 @@ footer {
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
     cursor: pointer;
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.checkout-btn:hover {
+    background: #43A047;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
 .clear-cart-btn {
     width: 100%;
     padding: 1rem;
-    background: #dc3545;
-    color: white;
-    border: none;
+    background: #f8f9fa;
+    color: #dc3545;
+    border: 2px solid #dc3545;
     border-radius: 8px;
     font-size: 1.1rem;
+    font-weight: 500;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-cart-btn:hover {
+    background: #dc3545;
+    color: white;
 }
 
 .empty-cart {
     text-align: center;
     color: #666;
     font-size: 1.2rem;
-    padding: 2rem;
+    padding: 3rem;
 }
 
+/* התאמה למובייל */
 @media (max-width: 768px) {
     .cart-container {
         grid-template-columns: 1fr;
+        padding: 1rem;
     }
     
     .cart-item {
-        grid-template-columns: 1fr auto;
-        gap: 0.5rem;
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1rem;
     }
     
     .item-quantity {
-        grid-column: 1/-1;
         justify-content: center;
+        margin: 1rem auto;
     }
+    
+    .cart-summary {
+        position: static;
+        margin-top: 2rem;
+    }
+}
+
+/* אנימציות */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.cart-item {
+    animation: fadeIn 0.3s ease-out;
 }

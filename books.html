@@ -13,6 +13,7 @@
             <div class="logo">
                 <a href="index.html">איתמר ספרים</a>
             </div>
+            <div class="menu-toggle">☰</div>
             <ul>
                 <li><a href="index.html">דף הבית</a></li>
                 <li><a href="books.html">ספרים</a></li>
@@ -169,6 +170,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadBooks();
             updateCartCount();
+        });
+
+        // תפריט מובייל
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+
+        // סגירת תפריט בלחיצה על קישור
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navUl.classList.remove('active');
+            });
         });
     </script>
 </body>

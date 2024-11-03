@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- התפריט הקיים -->
     <header>
         <nav>
             <div class="logo">
                 <a href="index.html">איתמר ספרים</a>
             </div>
+            <div class="menu-toggle">☰</div>
             <ul>
                 <li><a href="index.html">דף הבית</a></li>
                 <li><a href="books.html">ספרים</a></li>
@@ -35,7 +35,7 @@
         <section class="featured-books">
             <h2>ספרים מומלצים</h2>
             <div id="booksList" class="books-grid">
-                <!-- הספרים יוצגו כאן דרך JavaScript -->
+                <!-- הספרים יוצגו כאן -->
             </div>
         </section>
     </main>
@@ -45,24 +45,28 @@
     </footer>
 
     <script>
-        // טעינת ספרים
-        function loadBooks() {
+        // טעינת ספרים מהאחסון המקומי
+        async function loadBooks() {
             const books = JSON.parse(localStorage.getItem('books') || '[]');
             const booksListElement = document.getElementById('booksList');
             
             if (books.length === 0) {
-                booksListElement.innerHTML = '<p class="no-books">אין ספרים זמינים כרגע</p>';
+                booksListElement.innerHTML = '<p class="no-books">טוען ספרים...</p>';
+                await fetchBooksFromAPI(); // טעינה ראשונית מה-API
                 return;
             }
             
-            booksListElement.innerHTML = books.map(book => `
+            // מציג רק 4 ספרים בדף הבית
+            const featuredBooks = books.slice(0, 4);
+            
+            booksListElement.innerHTML = featuredBooks.map(book => `
                 <div class="book-card">
                     <img src="${book.image}" alt="${book.title}" onerror="this.src='placeholder.jpg'">
                     <div class="book-info">
                         <h3>${book.title}</h3>
                         <p class="author">מאת: ${book.author}</p>
                         <p class="price">₪${book.price}</p>
-                        <button onclick="addToCart(${book.id}, '${book.title}', ${book.price})" class="add-to-cart-btn">
+                        <button onclick="addToCart('${book.id}', '${book.title}', ${book.price})" class="add-to-cart-btn">
                             הוסף לסל
                         </button>
                     </div>
@@ -70,7 +74,7 @@
             `).join('');
         }
 
-        // הוספה לסל
+        // הוספת ספר לסל הקניות
         function addToCart(bookId, title, price) {
             let cart = JSON.parse(localStorage.getItem('cart') || '[]');
             const existingItem = cart.find(item => item.id === bookId);
@@ -98,11 +102,57 @@
             document.querySelector('.cart-count').textContent = count;
         }
 
+        // תפריט מובייל
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+
+        // סגירת תפריט בלחיצה על קישור
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navUl.classList.remove('active');
+            });
+        });
+
         // טעינה ראשונית
         document.addEventListener('DOMContentLoaded', () => {
             loadBooks();
             updateCartCount();
         });
+
+        // הוסף אחרי loadBooks()
+        async function fetchBooksFromAPI() {
+            try {
+                const query = 'language:hebrew';
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40&langRestrict=he`);
+                const data = await response.json();
+                
+                const books = data.items.map(book => ({
+                    id: book.id,
+                    title: book.volumeInfo.title || 'ללא כותרת',
+                    author: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'מחבר לא ידוע',
+                    price: generateRandomPrice(),
+                    image: book.volumeInfo.imageLinks?.thumbnail || 'placeholder.jpg',
+                    description: book.volumeInfo.description || 'אין תיאור זמין',
+                    publisher: book.volumeInfo.publisher || 'הוצאה לא ידועה',
+                    publishedDate: book.volumeInfo.publishedDate || 'תאריך לא ידוע',
+                    pageCount: book.volumeInfo.pageCount || 'מספר עמודים לא ידוע'
+                }));
+
+                localStorage.setItem('books', JSON.stringify(books));
+                loadBooks();
+                
+            } catch (error) {
+                console.error('שגיאה בטעינת ספרים:', error);
+            }
+        }
+
+        function generateRandomPrice() {
+            return Math.floor(Math.random() * (150 - 50) + 50);
+        }
     </script>
 </body>
 </html>
