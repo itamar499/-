@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ניהול - חנות ספרים</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">חנות ספרים</a>
+            </div>
+            <ul>
+                <li><a href="index.html">דף הבית</a></li>
+                <li><a href="books.html">ספרים</a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-count">0</span>
+                        סל קניות
+                    </a>
+                </li>
+                <li><a href="contact.html">צור קשר</a></li>
+                <li><a href="admin.html">ניהול</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>ממשק ניהול</h1>
+        
+        <!-- טופס הוספת ספר -->
+        <section class="admin-section">
+            <h2>הוספת ספר חדש</h2>
+            <form id="addBookForm" class="admin-form">
+                <div class="form-group">
+                    <label for="title">שם הספר:</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">מחבר:</label>
+                    <input type="text" id="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">מחיר:</label>
+                    <input type="number" id="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="image">קישור לתמונה:</label>
+                    <input type="url" id="image" required>
+                </div>
+                <button type="submit">הוסף ספר</button>
+            </form>
+        </section>
+
+        <!-- רשימת ספרים קיימים -->
+        <section class="admin-section">
+            <h2>ניהול ספרים קיימים</h2>
+            <div id="booksList" class="books-grid">
+                <!-- הספרים יוצגו כאן דרך JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 חנות ספרים. כל הזכויות שמורות.</p>
+    </footer>
+
+    <script>
+        // טיפול בהוספת ספר
+        document.getElementById('addBookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newBook = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                price: document.getElementById('price').value,
+                image: document.getElementById('image').value
+            };
+
+            // שמירה ב-localStorage
+            const books = JSON.parse(localStorage.getItem('books') || '[]');
+            books.push(newBook);
+            localStorage.setItem('books', JSON.stringify(books));
+
+            // איפוס הטופס
+            this.reset();
+            alert('הספר נוסף בהצלחה!');
+            
+            // רענון רשימת הספרים
+            loadBooks();
+        });
+
+        // טעינת ספרים קיימים
+        function loadBooks() {
+            const books = JSON.parse(localStorage.getItem('books') || '[]');
+            const booksListElement = document.getElementById('booksList');
+            
+            booksListElement.innerHTML = books.map((book, index) => `
+                <div class="book-card">
+                    <img src="${book.image}" alt="${book.title}">
+                    <h3>${book.title}</h3>
+                    <p>מאת: ${book.author}</p>
+                    <p>מחיר: ₪${book.price}</p>
+                    <button onclick="deleteBook(${index})">מחק ספר</button>
+                </div>
+            `).join('');
+        }
+
+        // מחיקת ספר
+        function deleteBook(index) {
+            if (confirm('האם אתה בטוח שברצונך למחוק ספר זה?')) {
+                const books = JSON.parse(localStorage.getItem('books') || '[]');
+                books.splice(index, 1);
+                localStorage.setItem('books', JSON.stringify(books));
+                loadBooks();
+            }
+        }
+
+        // טעינת ספרים בטעינת הדף
+        document.addEventListener('DOMContentLoaded', loadBooks);
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>צור קשר - חנות ספרים</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">חנות ספרים</a>
+            </div>
+            <ul>
+                <li><a href="index.html">דף הבית</a></li>
+                <li><a href="books.html">ספרים</a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-count">0</span>
+                        סל קניות
+                    </a>
+                </li>
+                <li><a href="contact.html">צור קשר</a></li>
+                <li><a href="admin.html">ניהול</a></li>
+                <li>
+                    <div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <button id="signOutBtn" onclick="signOut()" style="display: none;">התנתק</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>צור קשר</h1>
+        <form class="contact-form" onsubmit="submitForm(event)" id="contactForm">
+            <div class="form-group">
+                <label for="name">שם מלא:</label>
+                <input type="text" id="name" name="name" required 
+                       minlength="2" maxlength="50"
+                       pattern="^[\u0590-\u05FF\s'a-zA-Z]+$"
+                       title="אנא הזן שם תקין (אותיות בעברית או באנגלית)">
+            </div>
+            <div class="form-group">
+                <label for="email">אימייל:</label>
+                <input type="email" id="email" name="email" required
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                       title="אנא הזן כתובת אימייל תקינה">
+            </div>
+            <div class="form-group">
+                <label for="subject">נושא:</label>
+                <select id="subject" name="subject" required>
+                    <option value="">בחר נושא</option>
+                    <option value="general">שאלה כללית</option>
+                    <option value="order">בירור לגבי הזמנה</option>
+                    <option value="support">תמיכה טכנית</option>
+                    <option value="other">אחר</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">הודעה:</label>
+                <textarea id="message" name="message" required
+                          minlength="10" maxlength="1000"
+                          placeholder="אנא כתוב את הודעתך כאן..."></textarea>
+                <small class="char-count">0/1000</small>
+            </div>
+            <div class="form-actions">
+                <button type="submit" id="submitBtn">שלח</button>
+                <button type="reset">נקה טופס</button>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 חנות ספרים. כל הזכויות שמורות.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="script.js"></script>
+    <script src="script1.js"></script>
+    <script>
+        // עדכון ספירת תווים בטקסט אריה
+        document.getElementById('message').addEventListener('input', function(e) {
+            const charCount = e.target.value.length;
+            document.querySelector('.char-count').textContent = `${charCount}/1000`;
+        });
+
+        // מניעת שליחה כפולה של הטופס
+        let isSubmitting = false;
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (isSubmitting) return;
+            isSubmitting = true;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'שולח...';
+            
+            try {
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+                
+                // כאן יבוא קוד לשליחת הטופס לשרת
+                await submitForm(data);
+                
+                alert('תודה! הודעתך התקבלה בהצלחה.');
+                this.reset();
+                
+            } catch (error) {
+                console.error('שגיאה בשליחת הטופס:', error);
+                alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.');
+                
+            } finally {
+                isSubmitting = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

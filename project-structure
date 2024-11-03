@@ -1,0 +1,12 @@
+your-project/
+├── src/
+│   ├── components/
+│   │   └── AdminDashboard.jsx
+│   ├── pages/
+│   │   ├── admin.jsx
+│   │   └── api/
+│   │       └── books.js
+│   ├── styles/
+│   │   └── AdminDashboard.css
+│   └── utils/
+│       └── db.js 

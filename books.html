@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ספרים - איתמר ספרים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">איתמר ספרים</a>
+            </div>
+            <ul>
+                <li><a href="index.html">דף הבית</a></li>
+                <li><a href="books.html">ספרים</a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-count">0</span>
+                        סל קניות
+                    </a>
+                </li>
+                <li><a href="contact.html">צור קשר</a></li>
+                <li><a href="admin.html">ניהול</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="welcome-title">הספרים שלנו</h1>
+        
+        <!-- חיפוש וסינון -->
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="חיפוש ספר...">
+            <button onclick="fetchBooksFromAPI()" class="refresh-btn">טען ספרים חדשים</button>
+        </div>
+
+        <!-- רשימת הספרים -->
+        <div id="booksList" class="books-grid">
+            <!-- הספרים יוצגו כאן -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 איתמר ספרים. כל הזכויות שמורות.</p>
+    </footer>
+
+    <script>
+        async function fetchBooksFromAPI() {
+            try {
+                const query = 'language:hebrew';
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40&langRestrict=he`);
+                const data = await response.json();
+                
+                const books = data.items.map(book => ({
+                    id: book.id,
+                    title: book.volumeInfo.title || 'ללא כותרת',
+                    author: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'מחבר לא ידוע',
+                    price: generateRandomPrice(),
+                    image: book.volumeInfo.imageLinks?.thumbnail || 'placeholder.jpg',
+                    description: book.volumeInfo.description || 'אין תיאור זמין',
+                    publisher: book.volumeInfo.publisher || 'הוצאה לא ידועה',
+                    publishedDate: book.volumeInfo.publishedDate || 'תאריך לא ידוע',
+                    pageCount: book.volumeInfo.pageCount || 'מספר עמודים לא ידוע'
+                }));
+
+                localStorage.setItem('books', JSON.stringify(books));
+                loadBooks();
+                
+            } catch (error) {
+                console.error('שגיאה בטעינת ספרים:', error);
+                alert('אירעה שגיאה בטעינת הספרים. נסה שוב מאוחר יותר.');
+            }
+        }
+
+        function generateRandomPrice() {
+            return Math.floor(Math.random() * (150 - 50) + 50);
+        }
+
+        function loadBooks() {
+            const books = JSON.parse(localStorage.getItem('books') || '[]');
+            const booksListElement = document.getElementById('booksList');
+            
+            if (books.length === 0) {
+                booksListElement.innerHTML = '<p class="no-books">טוען ספרים...</p>';
+                fetchBooksFromAPI();
+                return;
+            }
+            
+            booksListElement.innerHTML = books.map(book => `
+                <div class="book-card">
+                    <img src="${book.image}" alt="${book.title}" onerror="this.src='placeholder.jpg'">
+                    <div class="book-info">
+                        <h3>${book.title}</h3>
+                        <p class="author">מאת: ${book.author}</p>
+                        <p class="publisher">הוצאת: ${book.publisher}</p>
+                        <p class="price">₪${book.price}</p>
+                        <button onclick="showBookDetails('${book.id}')" class="details-btn">פרטים נוספים</button>
+                        <button onclick="addToCart('${book.id}', '${book.title}', ${book.price})" class="add-to-cart-btn">
+                            הוסף לסל
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showBookDetails(bookId) {
+            const books = JSON.parse(localStorage.getItem('books') || '[]');
+            const book = books.find(b => b.id === bookId);
+            
+            if (!book) return;
+            
+            const modal = document.createElement('div');
+            modal.className = 'book-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h2>${book.title}</h2>
+                    <img src="${book.image}" alt="${book.title}">
+                    <p class="description">${book.description}</p>
+                    <div class="book-metadata">
+                        <p><strong>מחבר:</strong> ${book.author}</p>
+                        <p><strong>הוצאה:</strong> ${book.publisher}</p>
+                        <p><strong>תאריך:</strong> ${book.publishedDate}</p>
+                        <p><strong>עמודים:</strong> ${book.pageCount}</p>
+                    </div>
+                    <button onclick="addToCart('${book.id}', '${book.title}', ${book.price})" class="add-to-cart-btn">
+                        הוסף לסל - ₪${book.price}
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.querySelector('.close-modal').onclick = () => {
+                document.body.removeChild(modal);
+            };
+        }
+
+        function addToCart(bookId, title, price) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existingItem = cart.find(item => item.id === bookId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: bookId,
+                    title: title,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('הספר נוסף לסל הקניות!');
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = count;
+        }
+
+        // טעינה ראשונית
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBooks();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

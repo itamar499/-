@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>סל קניות - איתמר ספרים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">איתמר ספרים</a>
+            </div>
+            <ul>
+                <li><a href="index.html">דף הבית</a></li>
+                <li><a href="books.html">ספרים</a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-count">0</span>
+                        סל קניות
+                    </a>
+                </li>
+                <li><a href="contact.html">צור קשר</a></li>
+                <li><a href="admin.html">ניהול</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="welcome-title">סל הקניות שלך</h1>
+        
+        <div class="cart-container">
+            <div id="cartItems" class="cart-items">
+                <!-- פריטי הסל יוצגו כאן -->
+            </div>
+            
+            <div class="cart-summary">
+                <h3>סיכום הזמנה</h3>
+                <div id="cartTotal"></div>
+                <button onclick="checkout()" class="checkout-btn">לתשלום</button>
+                <button onclick="clearCart()" class="clear-cart-btn">רוקן סל</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 איתמר ספרים. כל הזכויות שמורות.</p>
+    </footer>
+
+    <script>
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<p class="empty-cart">סל הקניות ריק</p>';
+                cartTotalElement.innerHTML = '<p>סה"כ: ₪0</p>';
+                return;
+            }
+            
+            let total = 0;
+            cartItemsElement.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="cart-item">
+                        <div class="item-details">
+                            <h3>${item.title}</h3>
+                            <p class="item-price">₪${item.price}</p>
+                        </div>
+                        <div class="item-quantity">
+                            <button onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <p class="item-total">₪${itemTotal}</p>
+                        <button onclick="removeFromCart('${item.id}')" class="remove-item">×</button>
+                    </div>
+                `;
+            }).join('');
+            
+            cartTotalElement.innerHTML = `
+                <p>סה"כ פריטים: ${cart.reduce((sum, item) => sum + item.quantity, 0)}</p>
+                <p class="total-price">סה"כ לתשלום: ₪${total}</p>
+            `;
+        }
+
+        function updateQuantity(itemId, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(itemId);
+                return;
+            }
+            
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const itemIndex = cart.findIndex(item => item.id === itemId);
+            
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity = newQuantity;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCart();
+                updateCartCount();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart = cart.filter(item => item.id !== itemId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+            updateCartCount();
+        }
+
+        function clearCart() {
+            if (confirm('האם אתה בטוח שברצונך לרוקן את הסל?')) {
+                localStorage.setItem('cart', '[]');
+                loadCart();
+                updateCartCount();
+            }
+        }
+
+        function checkout() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('סל הקניות ריק');
+                return;
+            }
+            
+            alert('מעבר לתשלום... (בפיתוח)');
+            // כאן יהיה הקוד לעמוד התשלום
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = count;
+        }
+
+        // טעינה ראשונית
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html> 
